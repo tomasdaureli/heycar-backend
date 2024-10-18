@@ -29,17 +29,35 @@ Instala las dependencias del proyecto utilizando `pip`:
 pip install -r builder/requirements.txt
 ```
 
-### 4. Ejecutar el servidor de desarrollo
+### 4. Correr scripts para la creación de la base de datos (de ser necesario)
+
+```bash
+builder/sql-schemas/*.sql
+```
+
+### 5. Cargar variables de entorno
+
+Crear un archivo `.env` en la raíz del proyecto con las siguientes variables:
+
+```bash
+MYSQL_USER=your_username
+MYSQL_PASSWORD=your_password
+MYSQL_HOST=your_host # localhost
+MYSQL_PORT=your_port # 3306
+MYSQL_DB=your_database_name # heycar
+```
+
+### 6. Ejecutar el servidor de desarrollo
 
 ```bash
 uvicorn main:app --reload
 ```
 
-### 5. Acceder a la API
+### 7. Acceder a la API
 
 La API estará disponible en `http://127.0.0.1:8000`. Puedes usar herramientas como `curl` o Postman para probar los endpoints.
 
-### 6. Documentación interactiva
+### 8. Documentación interactiva
 
 FastAPI proporciona una documentación interactiva en tiempo de ejecución en `http://127.0.0.1:8000/docs`.
 
