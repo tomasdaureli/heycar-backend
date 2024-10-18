@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
-from app.model.models import Vehicle
-from app.dto.schemas import CreateVehicleRequest
+from app.models import Vehicle
+from app.schemas import CreateVehicleRequest
 
 
 class VehicleService:
