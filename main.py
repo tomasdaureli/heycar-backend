@@ -1,18 +1,10 @@
-from fastapi import FastAPI
+from fastapi import Depends, FastAPI
 from sqlalchemy.orm import Session
-from app.config.db import engine, SessionLocal
+from app.config.db import SessionLocal
+from app.dto.schemas import CreateVehicleRequest, VehicleResponse
+from app.service.service import VehicleService
+from app.router.controller import router
 
 app = FastAPI()
 
-
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
-
-@app.get("/")
-def read_root():
-    return {"message": "Hello World"}
+app.include_router(router)
