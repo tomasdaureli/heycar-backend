@@ -50,6 +50,7 @@ MYSQL_DB=your_database_name # heycar
 ### 6. Ejecutar el servidor de desarrollo
 
 ```bash
+cd app
 uvicorn main:app --reload
 ```
 
