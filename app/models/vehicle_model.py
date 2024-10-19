@@ -13,5 +13,6 @@ class Vehicle(Base):
     license_plate = Column(String(255), nullable=False)
     year = Column(Integer, nullable=False)
     km = Column(Integer, nullable=False)
+    user_id = Column(Integer, nullable=False)
     created_at = Column(DateTime, default=datetime.now)
     updated_at = Column(DateTime, default=datetime.now, onupdate=datetime.now)

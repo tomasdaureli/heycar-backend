@@ -1,8 +1,11 @@
 from fastapi import APIRouter, Depends
+from fastapi.security import HTTPBearer
 from sqlalchemy.orm import Session
 from config.db import get_db
 from schemas.vehicle_schema import CreateVehicleRequest, VehicleResponse
 from services.vehicle_service import VehicleService
+
+token_auth_scheme = HTTPBearer()
 
 vehicle_router = APIRouter()
 
@@ -13,6 +16,9 @@ def read_root():
 
 
 @vehicle_router.post("/vehicles", response_model=VehicleResponse)
-def create_vehicle(vehicle: CreateVehicleRequest, db: Session = Depends(get_db)):
+def create_vehicle(
+    vehicle: CreateVehicleRequest,
+    db: Session = Depends(get_db),
+):
     vehicle_service = VehicleService(db)
     return vehicle_service.create_vehicle(vehicle)
