@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String, Float, DateTime, Boolean
-from app.db import Base
+from config.db import Base
 from datetime import datetime
 
 
@@ -7,7 +7,11 @@ class Vehicle(Base):
     __tablename__ = "vehicles"
 
     id = Column(Integer, primary_key=True, index=True)
-    name = Column(String(50), nullable=False)
-    email = Column(String(100), nullable=False, unique=True)
+    brand = Column(String(255), nullable=False)
+    model = Column(String(255), nullable=False)
+    vehicle_type = Column(String(255), nullable=False)
+    license_plate = Column(String(255), nullable=False)
+    year = Column(Integer, nullable=False)
+    km = Column(Integer, nullable=False)
     created_at = Column(DateTime, default=datetime.now)
     updated_at = Column(DateTime, default=datetime.now, onupdate=datetime.now)
