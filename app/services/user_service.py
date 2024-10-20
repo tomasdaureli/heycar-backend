@@ -18,3 +18,6 @@ class UserService:
         self.db.commit()
         self.db.refresh(db_user)
         return db_user
+
+    def get_user(self, user_id: int):
+        return self.db.query(User).filter(User.id == user_id).first()
