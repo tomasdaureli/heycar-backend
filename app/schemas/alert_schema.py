@@ -9,6 +9,10 @@ class CreateAlertRequest(BaseModel):
     severity: str
 
 
+class FixAlertRequest(BaseModel):
+    fixed: bool
+
+
 class AlertResponse(BaseModel):
     id: int
     title: str

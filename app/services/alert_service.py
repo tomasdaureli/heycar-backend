@@ -19,3 +19,9 @@ class AlertService:
         self.db.add(new_alert)
         self.db.commit()
         return new_alert
+
+    def fix_alert(self, alert_id: int, fixed: bool):
+        alert = self.db.query(Alert).filter(Alert.id == alert_id).first()
+        alert.fixed = fixed
+        self.db.commit()
+        return alert
