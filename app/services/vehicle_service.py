@@ -21,3 +21,6 @@ class VehicleService:
         self.db.commit()
         self.db.refresh(db_vehicle)
         return db_vehicle
+
+    def get_vehicles(self, user_id: int):
+        return self.db.query(Vehicle).filter(Vehicle.user_id == user_id).all()

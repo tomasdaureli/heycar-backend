@@ -45,6 +45,9 @@ MYSQL_PASSWORD=your_password
 MYSQL_HOST=your_host # localhost
 MYSQL_PORT=your_port # 3306
 MYSQL_DB=your_database_name # heycar
+SECRET_KEY=your_secret_key # 1234567890
+ALGORITHM=HS256
+ACCESS_TOKEN_EXPIRE_MINUTES=30
 ```
 
 ### 6. Ejecutar el servidor de desarrollo

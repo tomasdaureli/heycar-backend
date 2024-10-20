@@ -1,3 +1,4 @@
+from typing import List
 from fastapi import APIRouter, Depends
 from fastapi.security import HTTPBearer
 from sqlalchemy.orm import Session
@@ -14,11 +15,6 @@ vehicle_router = APIRouter(
 )
 
 
-@vehicle_router.get("")
-def read_root():
-    return {"message": "Hello World"}
-
-
 @vehicle_router.post("", response_model=VehicleResponse)
 def create_vehicle(
     vehicle: CreateVehicleRequest,
@@ -27,3 +23,12 @@ def create_vehicle(
 ):
     vehicle_service = VehicleService(db)
     return vehicle_service.create_vehicle(vehicle, current_user["user_id"])
+
+
+@vehicle_router.get("", response_model=List[VehicleResponse])
+def get_vehicles(
+    db: db_dependency,
+    current_user: dict = Depends(get_current_user),
+):
+    vehicle_service = VehicleService(db)
+    return vehicle_service.get_vehicles(current_user["user_id"])
