@@ -11,7 +11,7 @@ user_router = APIRouter(
 )
 
 
-@user_router.post("", response_model=UserResponse)
+@user_router.post("", response_model=UserResponse, status_code=201)
 def create_user(user: CreateUserRequest, db: db_dependency):
     user_service = UserService(db)
     return user_service.create_user(user)

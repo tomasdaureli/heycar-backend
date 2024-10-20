@@ -24,3 +24,5 @@ class VehicleService:
 
     def get_vehicles(self, user_id: int):
         return self.db.query(Vehicle).filter(Vehicle.user_id == user_id).all()
+    
+    

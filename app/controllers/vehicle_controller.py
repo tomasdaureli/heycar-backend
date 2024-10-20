@@ -1,13 +1,11 @@
 from typing import List
 from fastapi import APIRouter, Depends
-from fastapi.security import HTTPBearer
-from sqlalchemy.orm import Session
+from schemas.alert_schema import AlertResponse, CreateAlertRequest
+from services.alert_service import AlertService
 from services.auth_service import get_current_user
 from config.db import db_dependency
 from schemas.vehicle_schema import CreateVehicleRequest, VehicleResponse
 from services.vehicle_service import VehicleService
-
-token_auth_scheme = HTTPBearer()
 
 vehicle_router = APIRouter(
     prefix="/vehicles",
@@ -15,7 +13,7 @@ vehicle_router = APIRouter(
 )
 
 
-@vehicle_router.post("", response_model=VehicleResponse)
+@vehicle_router.post("", response_model=VehicleResponse, status_code=201)
 def create_vehicle(
     vehicle: CreateVehicleRequest,
     db: db_dependency,
@@ -32,3 +30,21 @@ def get_vehicles(
 ):
     vehicle_service = VehicleService(db)
     return vehicle_service.get_vehicles(current_user["user_id"])
+
+
+@vehicle_router.post(
+    "/{vehicle_id}/alerts", status_code=201, response_model=AlertResponse
+)
+def create_alert(
+    vehicle_id: int,
+    alert: CreateAlertRequest,
+    db: db_dependency,
+):
+    alert_service = AlertService(db)
+    return alert_service.create_alert(vehicle_id, alert)
+
+
+@vehicle_router.get("/{vehicle_id}/alerts", response_model=List[AlertResponse])
+def get_alerts(vehicle_id: int, db: db_dependency):
+    alert_service = AlertService(db)
+    return alert_service.get_alerts(vehicle_id)

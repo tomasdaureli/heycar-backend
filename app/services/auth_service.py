@@ -21,8 +21,7 @@ def authenticate_user(email: str, password: str, db: db_dependency):
 
 
 def create_access_token(user_id: int, user_email: str):
-    expire = datetime.now() + timedelta(minutes=access_token_expire_minutes)
-    to_encode = {"sub": str(user_id), "exp": expire.timestamp(), "email": user_email}
+    to_encode = {"sub": str(user_id), "email": user_email}
     encoded_jwt = jwt.encode(to_encode, secret_key, algorithm=algorithm)
     return encoded_jwt
 
