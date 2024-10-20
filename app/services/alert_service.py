@@ -25,3 +25,6 @@ class AlertService:
         alert.fixed = fixed
         self.db.commit()
         return alert
+
+    def get_alerts(self, vehicle_id: int):
+        return self.db.query(Alert).filter(Alert.vehicle_id == vehicle_id).all()

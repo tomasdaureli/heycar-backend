@@ -42,3 +42,9 @@ def create_alert(
 ):
     alert_service = AlertService(db)
     return alert_service.create_alert(vehicle_id, alert)
+
+
+@vehicle_router.get("/{vehicle_id}/alerts", response_model=List[AlertResponse])
+def get_alerts(vehicle_id: int, db: db_dependency):
+    alert_service = AlertService(db)
+    return alert_service.get_alerts(vehicle_id)
