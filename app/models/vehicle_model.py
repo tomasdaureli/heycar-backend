@@ -1,6 +1,7 @@
-from sqlalchemy import Column, Integer, String, Float, DateTime, Boolean
-from config.db import Base
+from sqlalchemy import Column, Integer, String, DateTime
 from datetime import datetime
+
+from config.db import Base
 
 
 class Vehicle(Base):
@@ -13,5 +14,6 @@ class Vehicle(Base):
     license_plate = Column(String(255), nullable=False)
     year = Column(Integer, nullable=False)
     km = Column(Integer, nullable=False)
+    user_id = Column(Integer, nullable=False)
     created_at = Column(DateTime, default=datetime.now)
     updated_at = Column(DateTime, default=datetime.now, onupdate=datetime.now)
