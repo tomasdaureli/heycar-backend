@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session
 from models.user_model import User
 from schemas.user_schema import CreateUserRequest
+from config.auth import encryption_context
 
 
 class UserService:
@@ -8,7 +9,11 @@ class UserService:
         self.db = db
 
     def create_user(self, user: CreateUserRequest):
-        db_user = User(name=user.name, email=user.email, password=user.password)
+        db_user = User(
+            name=user.name,
+            email=user.email,
+            password=encryption_context.hash(user.password),
+        )
         self.db.add(db_user)
         self.db.commit()
         self.db.refresh(db_user)

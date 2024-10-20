@@ -7,7 +7,7 @@ class VehicleService:
     def __init__(self, db: Session):
         self.db = db
 
-    def create_vehicle(self, vehicle: CreateVehicleRequest):
+    def create_vehicle(self, vehicle: CreateVehicleRequest, user_id: int):
         db_vehicle = Vehicle(
             brand=vehicle.brand,
             model=vehicle.model,
@@ -15,6 +15,7 @@ class VehicleService:
             license_plate=vehicle.license_plate,
             year=vehicle.year,
             km=vehicle.km,
+            user_id=user_id,
         )
         self.db.add(db_vehicle)
         self.db.commit()
