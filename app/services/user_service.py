@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from models.user_model import User
+from models.user_model import Achievement, User, UserAchievement
 from schemas.user_schema import CreateUserRequest
 from config.auth import encryption_context
 
@@ -21,3 +21,11 @@ class UserService:
 
     def get_user(self, user_id: int):
         return self.db.query(User).filter(User.id == user_id).first()
+
+    def get_user_achievements(self, user_id: int):
+        return (
+            self.db.query(Achievement)
+            .join(UserAchievement)
+            .filter(UserAchievement.user_id == user_id)
+            .all()
+        )

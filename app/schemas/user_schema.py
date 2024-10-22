@@ -23,3 +23,12 @@ class UserResponse(BaseModel):
 
     class Config:
         orm_mode = True
+
+
+class AchievementResponse(BaseModel):
+    id: int
+    name: str
+    description: str
+
+    class Config:
+        orm_mode = True
