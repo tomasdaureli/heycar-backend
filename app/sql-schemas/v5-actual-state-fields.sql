@@ -1,0 +1,9 @@
+ALTER TABLE vehicles
+ADD COLUMN engine_status VARCHAR(255) NULL,
+ADD COLUMN battery_status VARCHAR(255) NULL,
+ADD COLUMN brakes_status VARCHAR(255) NULL,
+ADD COLUMN tires_status VARCHAR(255) NULL,
+ADD COLUMN oil_status VARCHAR(255) NULL,
+ADD COLUMN temperature_status VARCHAR(255) NULL,
+ADD COLUMN front_light_status VARCHAR(255) NULL,
+ADD COLUMN rear_light_status VARCHAR(255) NULL;
