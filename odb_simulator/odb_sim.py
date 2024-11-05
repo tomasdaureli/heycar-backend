@@ -1,15 +1,18 @@
+import os
 import random
 import json
 import requests
 import time
+from dotenv import load_dotenv
 
-vehicle_Id = 1
-url =  f"http://127.0.0.1:8000/vehicles/{vehicle_Id}/actual-status"
-
-status_options = ["OK", "DANGER", "CHECK"]
+load_dotenv()
+API_URL = os.getenv("API_URL")
 
 def generate_status():
-    return {
+    status_options = ["OK", "DANGER", "CHECK"]
+
+    data = {
+
         "engine_status": random.choice(status_options),
         "battery_status": random.choice(status_options),
         "brakes_status": random.choice(status_options),
@@ -18,23 +21,26 @@ def generate_status():
         "temperature_status": random.choice(status_options),
         "front_light_status": random.choice(status_options),
         "rear_light_status": random.choice(status_options)
+
     }
+
+    return data
 
 
 def generate_random_car_status (interval_seconds,vehicle_Id):
 
-    url =  f"http://127.0.0.1:8000/vehicles/{vehicle_Id}/actual-status"
+    url =  f"{API_URL}/vehicles/{vehicle_Id}/actual-status"
 
     while True:
-        status = generate_status()
-        with open("vehicle_status.json", "w") as f:
-            json.dump(status, f, indent=4)
-
+        data = generate_status()
         try:
-            response = requests.post(url, json=status)
-            response.raise_for_status() 
-            print("Estado:", status)
+            response = requests.post(url, json=data)
+            print("Estado: ", response.json())
         except requests.exceptions.RequestException as e:
-            print("Error al enviar el estado:", e)
+            print("Error al enviar:", e)
         
         time.sleep(interval_seconds)
+
+
+
+generate_random_car_status (5,1)
