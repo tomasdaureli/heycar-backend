@@ -26,13 +26,13 @@ venv\Scripts\activate     # En Windows
 Instala las dependencias del proyecto utilizando `pip`:
 
 ```bash
-pip install -r builder/requirements.txt
+pip install -r app/requirements.txt
 ```
 
 ### 4. Correr scripts para la creación de la base de datos (de ser necesario)
 
 ```bash
-builder/sql-schemas/*.sql
+app/sql-schemas/*.sql
 ```
 
 ### 5. Cargar variables de entorno
