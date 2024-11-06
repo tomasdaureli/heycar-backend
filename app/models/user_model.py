@@ -1,6 +1,7 @@
-from sqlalchemy import Column, Integer, String, Float, DateTime, Boolean
+from sqlalchemy import Column, ForeignKey, Integer, String, Float, DateTime, Boolean
 from config.db import Base
 from datetime import datetime
+from sqlalchemy.orm import relationship
 
 
 class User(Base):
@@ -10,6 +11,11 @@ class User(Base):
     name = Column(String(255), nullable=False)
     email = Column(String(255), nullable=False, unique=True)
     password = Column(String(255), nullable=False)
-    level = Column(Integer, nullable=True)
+    level = Column(Integer, default=1, nullable=True)
+    points = Column(Integer, default=0, nullable=True)
     created_at = Column(DateTime, default=datetime.now)
     updated_at = Column(DateTime, default=datetime.now, onupdate=datetime.now)
+    badges = relationship('Badge', back_populates='user')
+
+
+

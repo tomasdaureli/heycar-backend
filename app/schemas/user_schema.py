@@ -18,6 +18,7 @@ class UserResponse(BaseModel):
     name: str
     email: EmailStr
     level: int | None
+    points: int | None
     created_at: datetime
     updated_at: datetime
 

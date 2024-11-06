@@ -48,6 +48,17 @@ MYSQL_DB=your_database_name # heycar
 SECRET_KEY=your_secret_key # 1234567890
 ALGORITHM=HS256
 ACCESS_TOKEN_EXPIRE_MINUTES=30
+BADGES_LEVEL_1_POINTS=level_1_min_points #0
+BADGES_LEVEL_2_POINTS=level_2_min_points #230
+BADGES_LEVEL_3_POINTS=level_3_min_points #550
+BADGES_LEVEL_4_POINTS=level_4_min_points #820
+BADGES_LEVEL_5_POINTS=level_5_min_points #1000
+BADGES_LEVEL_1_NAME=level_1_name #Conductor Novato
+BADGES_LEVEL_2_NAME=level_2_name #Piloto Cuidadoso
+BADGES_LEVEL_3_NAME=level_3_name #Guardian del Motor
+BADGES_LEVEL_4_NAME=level_4_name #Maestro del Volante
+BADGES_LEVEL_5_NAME=level_5_name #Leyenda Automotor
+
 ```
 
 ### 6. Ejecutar el servidor de desarrollo
@@ -65,7 +76,11 @@ La API estará disponible en `http://127.0.0.1:8000`. Puedes usar herramientas c
 
 FastAPI proporciona una documentación interactiva en tiempo de ejecución en `http://127.0.0.1:8000/docs`.
 
+### 9. Crear variable de entorno para script odb_simulator
 
-
-
+```bash
+API_URL=http://127.0.0.1:8000
+VEHICLE_ID=1
+INTERVAL_SECONDS=5
+```
 
