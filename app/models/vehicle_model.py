@@ -10,6 +10,7 @@ class Vehicle(Base):
     id = Column(Integer, primary_key=True, index=True)
     brand = Column(String(255), nullable=False)
     model = Column(String(255), nullable=False)
+    vehicle_name = Column(String(255), nullable=False) 
     vehicle_type = Column(String(255), nullable=False)
     license_plate = Column(String(255), nullable=False)
     year = Column(Integer, nullable=False)

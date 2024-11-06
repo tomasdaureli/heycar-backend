@@ -11,6 +11,7 @@ class VehicleService:
         db_vehicle = Vehicle(
             brand=vehicle.brand,
             model=vehicle.model,
+            vehicle_name=vehicle.vehicle_name,
             vehicle_type=vehicle.vehicle_type.value,
             license_plate=vehicle.license_plate,
             year=vehicle.year,
