@@ -11,7 +11,6 @@ class VehicleType(Enum):
 
 class State(str, Enum):
     OK = "OK"
-    WARNING = "WARNING"
     CHECK = "CHECK"
     DANGER = "DANGER"
 
@@ -19,6 +18,7 @@ class State(str, Enum):
 class CreateVehicleRequest(BaseModel):
     brand: str
     model: str
+    vehicle_name: str
     vehicle_type: VehicleType
     license_plate: str
     year: int
@@ -40,6 +40,7 @@ class VehicleResponse(BaseModel):
     id: int
     brand: str
     model: str
+    vehicle_name: str
     vehicle_type: VehicleType
     license_plate: str
     year: int
