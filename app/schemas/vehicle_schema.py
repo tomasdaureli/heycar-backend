@@ -11,7 +11,6 @@ class VehicleType(Enum):
 
 class State(str, Enum):
     OK = "OK"
-    WARNING = "WARNING"
     CHECK = "CHECK"
     DANGER = "DANGER"
 

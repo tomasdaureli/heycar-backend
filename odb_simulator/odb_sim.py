@@ -11,7 +11,7 @@ VEHICLE_ID = os.getenv("VEHICLE_ID")
 INTERVAL_SECONDS = os.getenv("INTERVAL_SECONDS")
 
 def generate_status():
-    status_options = ["OK", "DANGER", "CHECK", "WARNING"]
+    status_options = ["OK", "DANGER", "CHECK"]
 
     data = {
         "engine_status": random.choice(status_options),
