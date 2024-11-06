@@ -54,14 +54,15 @@ def get_alerts(vehicle_id: int, db: db_dependency):
     return alert_service.get_alerts(vehicle_id)
 
 
-@vehicle_router.get("/{vehicle_id}/actual-status", response_model=VehicleResponse)
+@vehicle_router.get("/{vehicle_id}", response_model=VehicleResponse)
 def get_actual_state(
     vehicle_id: int,
-    vehicle_status: UpdateVehicleStatusRequest,
     db: db_dependency,
+    current_user: dict = Depends(get_current_user),
 ):
     vehicle_service = VehicleService(db)
-    return vehicle_service.get_actual_state(vehicle_id, vehicle_status)
+    return vehicle_service.get_actual_state(vehicle_id)
+
 
 @vehicle_router.put("/{vehicle_id}/actual-status", status_code=200)
 def update_vehicle_status(

@@ -25,21 +25,10 @@ class VehicleService:
     def get_vehicles(self, user_id: int):
         return self.db.query(Vehicle).filter(Vehicle.user_id == user_id).all()
 
-    def get_actual_state(
-        self, vehicle_id: int, vehicle_status: UpdateVehicleStatusRequest
-    ):
+    def get_actual_state(self, vehicle_id: int):
         vehicle = self.db.query(Vehicle).filter(Vehicle.id == vehicle_id).first()
-        if vehicle:
-            vehicle.engine_status = vehicle_status.engine_status
-            vehicle.battery_status = vehicle_status.battery_status
-            vehicle.brakes_status = vehicle_status.brakes_status
-            vehicle.tires_status = vehicle_status.tires_status
-            vehicle.oil_status = vehicle_status.oil_status
-            vehicle.temperature_status = vehicle_status.temperature_status
-            vehicle.front_light_status = vehicle_status.front_light_status
-            vehicle.rear_light_status = vehicle_status.rear_light_status
-            self.db.commit()
-            self.db.refresh(vehicle)
+        if not vehicle:
+            raise ValueError("Vehicle not found")
         return vehicle
 
     def update_vehicle_status(
@@ -48,16 +37,17 @@ class VehicleService:
         vehicle = self.db.query(Vehicle).filter(Vehicle.id == vehicle_id).first()
         if not vehicle:
             raise ValueError("Vehicle not found")
-        
-        vehicle.engine_status = str(vehicle_status.engine_status)
-        vehicle.battery_status = str(vehicle_status.battery_status)
-        vehicle.brakes_status = str(vehicle_status.brakes_status)
-        vehicle.tires_status = str(vehicle_status.tires_status)
-        vehicle.oil_status = str(vehicle_status.oil_status)
-        vehicle.temperature_status = str(vehicle_status.temperature_status)
-        vehicle.front_light_status = str(vehicle_status.front_light_status)
-        vehicle.rear_light_status = str(vehicle_status.rear_light_status)
-        
+
+        vehicle.engine_status = vehicle_status.engine_status
+        vehicle.battery_status = vehicle_status.battery_status
+        vehicle.brakes_status = vehicle_status.brakes_status
+        vehicle.tires_status = vehicle_status.tires_status
+        vehicle.oil_status = vehicle_status.oil_status
+        vehicle.temperature_status = vehicle_status.temperature_status
+        vehicle.front_light_status = vehicle_status.front_light_status
+        vehicle.rear_light_status = vehicle_status.rear_light_status
+
         self.db.commit()
+        self.db.refresh(vehicle)
 
         return vehicle
