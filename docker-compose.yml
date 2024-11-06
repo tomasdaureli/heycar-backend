@@ -1,0 +1,30 @@
+version: '3.8'
+services:
+  mi-mysql:
+    image: mysql:latest
+    container_name: heycar-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: RT#hgR3%X2h7*M
+      MYSQL_DATABASE: heycar
+      MYSQL_USER: heycarMaster
+      MYSQL_PASSWORD: RT#hgR3%X2h7*M
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    restart: unless-stopped
+
+  my-phpmyadmin-mysql:
+    image: phpmyadmin/phpmyadmin
+    container_name: heycar-phpmyadmin
+    environment:
+      PMA_HOST: mi-mysql
+      PMA_PORT: 3306
+    ports:
+      - "8080:80"
+    depends_on:
+      - mi-mysql
+    restart: unless-stopped
+
+volumes:
+  mysql_data:
