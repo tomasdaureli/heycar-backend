@@ -62,3 +62,12 @@ def get_actual_state(
 ):
     vehicle_service = VehicleService(db)
     return vehicle_service.get_actual_state(vehicle_id, vehicle_status)
+
+@vehicle_router.put("/{vehicle_id}/actual-status", status_code=200)
+def update_vehicle_status(
+    vehicle_id: int,
+    vehicle_status: UpdateVehicleStatusRequest,
+    db: db_dependency,
+):
+    vehicle_service = VehicleService(db)
+    return vehicle_service.update_vehicle_status(vehicle_id, vehicle_status)

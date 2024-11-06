@@ -9,7 +9,7 @@ load_dotenv()
 API_URL = os.getenv("API_URL")
 
 def generate_status():
-    status_options = ["OK", "DANGER", "CHECK"]
+    status_options = ["OK", "DANGER", "CHECK", "WARNING"]
 
     data = {
 
@@ -34,8 +34,11 @@ def generate_random_car_status (interval_seconds,vehicle_Id):
     while True:
         data = generate_status()
         try:
-            response = requests.post(url, json=data)
-            print("Estado: ", response.json())
+            response = requests.put(url, json=data)
+            if response.status_code == 200:
+                print("Estado: ", data)
+            else:
+                print(f"Error: {response.status_code}, Response: {response.text}")
         except requests.exceptions.RequestException as e:
             print("Error al enviar:", e)
         

@@ -41,3 +41,23 @@ class VehicleService:
             self.db.commit()
             self.db.refresh(vehicle)
         return vehicle
+
+    def update_vehicle_status(
+        self, vehicle_id: int, vehicle_status: UpdateVehicleStatusRequest
+    ):
+        vehicle = self.db.query(Vehicle).filter(Vehicle.id == vehicle_id).first()
+        if not vehicle:
+            raise ValueError("Vehicle not found")
+        
+        vehicle.engine_status = str(vehicle_status.engine_status)
+        vehicle.battery_status = str(vehicle_status.battery_status)
+        vehicle.brakes_status = str(vehicle_status.brakes_status)
+        vehicle.tires_status = str(vehicle_status.tires_status)
+        vehicle.oil_status = str(vehicle_status.oil_status)
+        vehicle.temperature_status = str(vehicle_status.temperature_status)
+        vehicle.front_light_status = str(vehicle_status.front_light_status)
+        vehicle.rear_light_status = str(vehicle_status.rear_light_status)
+        
+        self.db.commit()
+
+        return vehicle
