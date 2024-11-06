@@ -4,7 +4,11 @@ from schemas.alert_schema import AlertResponse, CreateAlertRequest
 from services.alert_service import AlertService
 from services.auth_service import get_current_user
 from config.db import db_dependency
-from schemas.vehicle_schema import CreateVehicleRequest, VehicleResponse
+from schemas.vehicle_schema import (
+    CreateVehicleRequest,
+    UpdateVehicleStatusRequest,
+    VehicleResponse,
+)
 from services.vehicle_service import VehicleService
 
 vehicle_router = APIRouter(
@@ -48,3 +52,23 @@ def create_alert(
 def get_alerts(vehicle_id: int, db: db_dependency):
     alert_service = AlertService(db)
     return alert_service.get_alerts(vehicle_id)
+
+
+@vehicle_router.get("/{vehicle_id}", response_model=VehicleResponse)
+def get_actual_state(
+    vehicle_id: int,
+    db: db_dependency,
+    current_user: dict = Depends(get_current_user),
+):
+    vehicle_service = VehicleService(db)
+    return vehicle_service.get_actual_state(vehicle_id)
+
+
+@vehicle_router.put("/{vehicle_id}/actual-status", status_code=200)
+def update_vehicle_status(
+    vehicle_id: int,
+    vehicle_status: UpdateVehicleStatusRequest,
+    db: db_dependency,
+):
+    vehicle_service = VehicleService(db)
+    return vehicle_service.update_vehicle_status(vehicle_id, vehicle_status)
