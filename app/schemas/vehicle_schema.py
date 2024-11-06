@@ -9,7 +9,7 @@ class VehicleType(Enum):
     OTHER = "Other"
 
 
-class State(str,Enum):
+class State(str, Enum):
     OK = "OK"
     WARNING = "WARNING"
     CHECK = "CHECK"

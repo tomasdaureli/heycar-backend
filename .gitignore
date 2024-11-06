@@ -6,3 +6,4 @@ env
 .env
 .pytest_cache
 google-services.json
+.vscode
