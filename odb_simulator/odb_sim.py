@@ -7,7 +7,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 API_URL = os.getenv("API_URL")
-
+VEHICLE_ID = os.getenv("VEHICLE_ID")
+INTERVAL_SECONDS = os.getenv("INTERVAL_SECONDS")
 
 def generate_status():
     status_options = ["OK", "DANGER", "CHECK", "WARNING"]
@@ -44,4 +45,4 @@ def generate_random_car_status(interval_seconds, vehicle_id):
         time.sleep(interval_seconds)
 
 
-generate_random_car_status(5, 1)
+generate_random_car_status(INTERVAL_SECONDS, VEHICLE_ID)

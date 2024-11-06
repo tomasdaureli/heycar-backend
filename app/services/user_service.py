@@ -1,9 +1,19 @@
+import os
 from sqlalchemy.orm import Session
 from schemas.badges_schema import BadgeResponse
 from models.badges_model import Badge
 from models.user_model import User
 from schemas.user_schema import CreateUserRequest
 from config.auth import encryption_context
+
+from dotenv import load_dotenv
+
+load_dotenv()
+BADGES_LEVEL_1_POINTS = os.getenv("BADGES_LEVEL_1_POINTS")
+BADGES_LEVEL_2_POINTS = os.getenv("BADGES_LEVEL_2_POINTS")
+BADGES_LEVEL_3_POINTS = os.getenv("BADGES_LEVEL_3_POINTS")
+BADGES_LEVEL_4_POINTS = os.getenv("BADGES_LEVEL_4_POINTS")
+BADGES_LEVEL_5_POINTS = os.getenv("BADGES_LEVEL_5_POINTS")
 
 
 class UserService:
@@ -63,13 +73,13 @@ class UserService:
         return [BadgeResponse.model_validate(badge_dict) for badge_dict in badge_dicts] 
     
     def update_user_level(self, user: User):
-        if user.points >= 1000:
+        if user.points >= BADGES_LEVEL_5_POINTS:
             user.level = 5  
-        elif user.points >= 820:
+        elif user.points >= BADGES_LEVEL_4_POINTS:
             user.level = 4  
-        elif user.points >= 550:
+        elif user.points >= BADGES_LEVEL_3_POINTS:
             user.level = 3  
-        elif user.points >= 230:
+        elif user.points >= BADGES_LEVEL_2_POINTS:
             user.level = 2  
         else:
             user.level = 1  
