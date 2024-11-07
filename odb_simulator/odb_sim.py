@@ -10,6 +10,7 @@ API_URL = os.getenv("API_URL")
 VEHICLE_ID = os.getenv("VEHICLE_ID")
 INTERVAL_SECONDS = os.getenv("INTERVAL_SECONDS")
 
+
 def generate_status():
     status_options = ["OK", "DANGER", "CHECK"]
 
@@ -42,7 +43,7 @@ def generate_random_car_status(interval_seconds, vehicle_id):
         except requests.exceptions.RequestException as e:
             print("Error al enviar:", e)
 
-        time.sleep(interval_seconds)
+        time.sleep(int(interval_seconds))
 
 
 generate_random_car_status(INTERVAL_SECONDS, VEHICLE_ID)

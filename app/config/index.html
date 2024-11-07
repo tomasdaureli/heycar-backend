@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notification Demo</title>
+</head>
+
+<body>
+    <h2>Hello Friends</h2>
+    <script type="module">
+        import {
+            initializeApp
+        } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
+        import {
+            getMessaging,
+            getToken
+        } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-messaging.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCilSN_Qe7OgUu0yLgz8uZYzZ1dP4wCa9Q",
+            authDomain: "heycar-422b4.firebaseapp.com",
+            projectId: "heycar-422b4",
+            storageBucket: "heycar-422b4.firebasestorage.app",
+            messagingSenderId: "650809202891",
+            appId: "1:650809202891:web:65d9249a2a3ed5df4d234e"
+        };
+
+        const app = intializeApp(firebaseConfig);
+        const messaging = getMessaging(app);
+        const VapidKey = "BG69WSNkUxxbDtyQNIEaZQIS_WdtYaODcyUHPo3nVPo70e2KFZMb6ksJcC7jIMqKUfv_e6HyGdJ3qKPIfQtm-Io"
+
+        navigator.serviceWorker.register("firebase-messaging-sw.js").
+            then(registration => {
+                getToken(messaging, {
+                    vapidKey: VapidKey,
+                    serviceWorkerRegistration: registration
+                }).then(currentToken => {
+                    if (currentToken) {
+                        console.log("Token => ", currentToken);
+                    } else {
+                        console.log("No registration token available. Request permission to generate one.");
+                    }
+                }).catch(err => {
+                    console.log("Service Worker Error => ", err);
+                });
+            });
+
+        async function requestNotificationPermission() {
+            try {
+                const permission = await Notification.requestPermission();
+                if (permission === "granted") {
+                    console.log("Notification permission granted.");
+                } else {
+                    console.log("Unable to get permission to notify.");
+                }
+            } catch (error) {
+                console.error("Error occurred while trying to get permission to notify => ", error);
+            }
+        }
+    </script>
+</body>
+
+</html>
