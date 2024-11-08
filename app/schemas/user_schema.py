@@ -13,6 +13,11 @@ class LoginUserRequest(BaseModel):
     password: str
 
 
+class UserNotificationToken(BaseModel):
+    token: str
+    type: str
+
+
 class UserResponse(BaseModel):
     id: int
     name: str
@@ -21,6 +26,8 @@ class UserResponse(BaseModel):
     points: int | None
     created_at: datetime
     updated_at: datetime
+    notification_token: str | None
+    notification_type: str | None
 
     class Config:
         orm_mode = True

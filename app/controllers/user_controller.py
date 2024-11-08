@@ -8,7 +8,7 @@ from schemas.badges_schema import (
     PointsResponse,
 )
 from services.auth_service import get_current_user
-from schemas.user_schema import CreateUserRequest, UserResponse
+from schemas.user_schema import CreateUserRequest, UserResponse, UserNotificationToken
 from config.db import db_dependency
 from services.user_service import UserService
 from config.notifications import (
@@ -63,6 +63,18 @@ def assign_badge(user_id: int, badge_request: BadgeCreateRequest, db: db_depende
         badge_request.badge_name,
         badge_request.description,
         badge_request.score,
+    )
+
+
+@user_router.post("/notification-token", response_model=UserResponse)
+async def save_notification_token(
+    request: UserNotificationToken,
+    db: db_dependency,
+    current_user: dict = Depends(get_current_user),
+):
+    user_service = UserService(db)
+    return user_service.save_notification_token(
+        current_user["user_id"], request.token, request.type
     )
 
 
