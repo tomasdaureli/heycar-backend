@@ -11,12 +11,10 @@ from services.auth_service import get_current_user
 from schemas.user_schema import CreateUserRequest, UserResponse
 from config.db import db_dependency
 from services.user_service import UserService
-import json
 from config.notifications import (
     PushNotificationPayload,
-    send_notification,
+    send_push_notification_firebase,
 )
-import requests
 
 user_router = APIRouter(
     prefix="/users",
@@ -69,11 +67,5 @@ def assign_badge(user_id: int, badge_request: BadgeCreateRequest, db: db_depende
 
 @user_router.post("/send-notification")
 async def send_notification(payload: PushNotificationPayload):
-    # result = send_push_notification(
-    #     "d22stUVBTqi1PSlngeu6ah:APA91bENLim9rrZhpSZsybug3YNjfK0cEjNgeEyn9nM6NVx17q7cd-aRqPv2Gz5zt9y0wHahgBOhTeuq35Pl7EP2iFcDI9908_nSKyxDVFsPZQpYrjSVsuhlquJt-_nES1jAmudgPvAX",
-    #     "Prueba",
-    #     "Este es un mensaje de prueba",
-    # )
-    # return {"status": "success", "result": result}
-
-    return send_notification(payload)
+    result = send_push_notification_firebase(payload.token, payload.title, payload.body)
+    return {"status": "success", "result": result}
