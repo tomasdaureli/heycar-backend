@@ -11,6 +11,11 @@ from services.auth_service import get_current_user
 from schemas.user_schema import CreateUserRequest, UserResponse, UserNotificationToken
 from config.db import db_dependency
 from services.user_service import UserService
+from config.notifications import (
+    PushNotificationPayload,
+    send_push_notification_firebase,
+    send_push_notification_expo,
+)
 
 user_router = APIRouter(
     prefix="/users",
@@ -71,3 +76,10 @@ async def save_notification_token(
     return user_service.save_notification_token(
         current_user["user_id"], request.token, request.type
     )
+
+
+@user_router.post("/send-notification")
+async def send_notification(payload: PushNotificationPayload):
+    # result = send_push_notification_firebase(payload.token, payload.title, payload.body)
+    result = send_push_notification_expo(payload.token, payload.title, payload.body)
+    return {"status": "success", "result": result}
