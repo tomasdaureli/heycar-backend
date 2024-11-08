@@ -2,6 +2,7 @@ from pyfcm import FCMNotification
 from pydantic import BaseModel
 import os
 from dotenv import load_dotenv
+import requests
 
 load_dotenv()
 
@@ -26,3 +27,24 @@ def send_push_notification_firebase(token: str, title: str, message: str):
         notification_body=message,
     )
     return result
+
+
+def send_push_notification_expo(token: str, title: str, message: str):
+    expo_url = os.getenv("EXPO_NOTIFICATION_URL")
+
+    headers = {
+        "content-type": "application/json",
+    }
+
+    payload = {
+        "to": token,
+        "title": title,
+        "body": message,
+    }
+
+    response = requests.post(expo_url, headers=headers, json=payload)
+
+    if response.status_code != 200:
+        print("Error sending notification:", response.status_code, response.text)
+
+    return response.json()
