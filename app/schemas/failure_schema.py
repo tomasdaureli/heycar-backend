@@ -1,5 +1,11 @@
+from enum import Enum
 from pydantic import BaseModel
 from datetime import datetime
+
+
+class ReportType(str, Enum):
+    MANUAL = "manual"
+    AUTOMATIC = "automatic"
 
 
 class CreateFailureRequest(BaseModel):
@@ -7,6 +13,10 @@ class CreateFailureRequest(BaseModel):
     part: str
     description: str
     severity: str
+    date: datetime
+    km: int
+    report_type: ReportType
+    fixed: bool
 
 
 class FixFailureRequest(BaseModel):
@@ -19,7 +29,10 @@ class FailureResponse(BaseModel):
     part: str
     description: str
     severity: str
+    km: int
+    report_type: ReportType | None
     fixed: bool
+    solution: str
     created_at: datetime
 
     class Config:
