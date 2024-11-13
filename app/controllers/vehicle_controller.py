@@ -1,7 +1,7 @@
 from typing import List
 from fastapi import APIRouter, Depends
-from schemas.alert_schema import AlertResponse, CreateAlertRequest
-from services.alert_service import AlertService
+from app.schemas.failure_schema import FailureResponse, CreateFailureRequest
+from app.services.failure_service import FailureService
 from services.auth_service import get_current_user
 from config.db import db_dependency
 from schemas.vehicle_schema import (
@@ -37,21 +37,21 @@ def get_vehicles(
 
 
 @vehicle_router.post(
-    "/{vehicle_id}/alerts", status_code=201, response_model=AlertResponse
+    "/{vehicle_id}/failures", status_code=201, response_model=FailureResponse
 )
-def create_alert(
+def create_failure(
     vehicle_id: int,
-    alert: CreateAlertRequest,
+    failure: CreateFailureRequest,
     db: db_dependency,
 ):
-    alert_service = AlertService(db)
-    return alert_service.create_alert(vehicle_id, alert)
+    failure_service = FailureService(db)
+    return failure_service.create_failure(vehicle_id, failure)
 
 
-@vehicle_router.get("/{vehicle_id}/alerts", response_model=List[AlertResponse])
-def get_alerts(vehicle_id: int, db: db_dependency):
-    alert_service = AlertService(db)
-    return alert_service.get_alerts(vehicle_id)
+@vehicle_router.get("/{vehicle_id}/failures", response_model=List[FailureResponse])
+def get_failures(vehicle_id: int, db: db_dependency):
+    failure_service = FailureService(db)
+    return failure_service.get_failures(vehicle_id)
 
 
 @vehicle_router.get("/{vehicle_id}", response_model=VehicleResponse)

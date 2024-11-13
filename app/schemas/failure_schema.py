@@ -2,18 +2,18 @@ from pydantic import BaseModel
 from datetime import datetime
 
 
-class CreateAlertRequest(BaseModel):
+class CreateFailureRequest(BaseModel):
     title: str
     part: str
     description: str
     severity: str
 
 
-class FixAlertRequest(BaseModel):
+class FixFailureRequest(BaseModel):
     fixed: bool
 
 
-class AlertResponse(BaseModel):
+class FailureResponse(BaseModel):
     id: int
     title: str
     part: str

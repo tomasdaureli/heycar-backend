@@ -3,8 +3,8 @@ from config.db import Base
 from datetime import datetime
 
 
-class Alert(Base):
-    __tablename__ = "alerts"
+class Failure(Base):
+    __tablename__ = "failures"
 
     id = Column(Integer, primary_key=True, index=True)
     vehicle_id = Column(Integer, nullable=False)
