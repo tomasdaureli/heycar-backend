@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 
-from app.schemas.failure_schema import CreateFailureRequest
-from app.models.failure_model import Failure
+from schemas.failure_schema import CreateFailureRequest
+from models.failure_model import Failure
 
 
 class FailureService:

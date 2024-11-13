@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends
 from models.user_model import User
-from app.schemas.failure_schema import FailureResponse, FixFailureRequest
+from schemas.failure_schema import FailureResponse, FixFailureRequest
 from services.auth_service import get_current_user
 from config.db import db_dependency
-from app.services.failure_service import FailureService
+from services.failure_service import FailureService
 
 failure_router = APIRouter(
     prefix="/failures",

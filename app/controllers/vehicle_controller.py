@@ -1,7 +1,7 @@
 from typing import List
 from fastapi import APIRouter, Depends
-from app.schemas.failure_schema import FailureResponse, CreateFailureRequest
-from app.services.failure_service import FailureService
+from schemas.failure_schema import FailureResponse, CreateFailureRequest
+from services.failure_service import FailureService
 from services.auth_service import get_current_user
 from config.db import db_dependency
 from schemas.vehicle_schema import (

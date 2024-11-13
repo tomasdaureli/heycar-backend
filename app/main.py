@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from controllers.vehicle_controller import vehicle_router
 from controllers.user_controller import user_router
 from controllers.auth_controller import auth_router
-from app.controllers.failure_controller import failure_router
+from controllers.failure_controller import failure_router
 
 app = FastAPI()
 
