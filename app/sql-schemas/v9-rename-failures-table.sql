@@ -1,0 +1,6 @@
+ALTER TABLE alerts RENAME TO failures;
+
+ALTER TABLE failures
+ADD COLUMN km INTEGER,
+ADD COLUMN report_type VARCHAR(255),
+ADD COLUMN solution VARCHAR(255);
