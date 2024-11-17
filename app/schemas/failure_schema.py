@@ -1,5 +1,5 @@
 from enum import Enum
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from datetime import datetime
 
 
@@ -12,11 +12,8 @@ class CreateFailureRequest(BaseModel):
     title: str
     part: str
     description: str
-    severity: str
-    date: datetime
     km: int
-    report_type: ReportType
-    fixed: bool
+    report_type: ReportType = Field(default=ReportType.MANUAL)
 
 
 class FixFailureRequest(BaseModel):
@@ -28,11 +25,10 @@ class FailureResponse(BaseModel):
     title: str
     part: str
     description: str
-    severity: str
     km: int
     report_type: ReportType | None
     fixed: bool
-    solution: str
+    solution: str | None
     created_at: datetime
 
     class Config:
