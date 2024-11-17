@@ -18,3 +18,6 @@ class User(Base):
     badges = relationship("Badge", back_populates="user")
     notification_token = Column(String(255), nullable=True)
     notification_type = Column(String(255), nullable=True)
+    notifications = relationship(
+        "Notification", back_populates="user", cascade="all, delete-orphan"
+    )

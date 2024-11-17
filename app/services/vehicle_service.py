@@ -2,6 +2,7 @@ from sqlalchemy.orm import Session
 from models.user_model import User
 from schemas.failure_schema import CreateFailureRequest, ReportType
 from models.vehicle_model import Vehicle
+from models.notification_model import Notification
 from schemas.vehicle_schema import (
     CreateVehicleRequest,
     State,
@@ -60,45 +61,11 @@ class VehicleService:
         user = self.db.query(User).filter(User.id == vehicle.user_id).first()
         for field_name, value in vehicle_status.dict().items():
             if isinstance(value, dict) and value.get("status") == State.DANGER:
-                obd_code = value.get("obd_code")
-                message = obd_codes.get(obd_code, "Unknown issue")
-                failure_request = CreateFailureRequest(
-                    title=f"{vehicle.vehicle_name}. {field_name} is in danger",
-                    part=field_name,
-                    description=message,
-                    km=vehicle_status.km,
-                    report_type=ReportType.AUTOMATIC,
+                message = self._get_odb_code_message(value.get("obd_code"))
+                failure = self._add_failure(
+                    vehicle_id, vehicle_status, vehicle, field_name, message
                 )
-                failure_service.FailureService(self.db).create_failure(
-                    vehicle_id=vehicle_id, failure=failure_request
-                )
-                if user.notification_type == "expo":
-                    print("Sending push notification with Expo")
-                    print("Token: ", user.notification_token)
-                    print(
-                        "Title: ",
-                        f"{vehicle.vehicle_name}: Isuue encountered in {field_name}",
-                    )
-                    print("Message: ", message)
-                    # send_push_notification_expo(
-                    #     user.notification_token,
-                    #     f"Vehicle {field_name} is in danger",
-                    #     "Message",
-                    # )
-                else:
-                    print("Sending push notification with Firebase")
-                    print("Token: ", user.notification_token)
-                    print(
-                        "Title: ",
-                        f"{vehicle.vehicle_name}: Isuue encountered in {field_name}",
-                    )
-                    print("Message: ", message)
-                    # send_push_notification_firebase(
-                    #     user.notification_token,
-                    #     f"Vehicle {field_name} is in danger",
-                    #     "Message",
-                    # )
-                # Guardar notificación en la base de datos
+                self.notify_user(vehicle, user, field_name, message, failure)
 
         vehicle.km = vehicle_status.km
         vehicle.engine_status = vehicle_status.engine_status.status
@@ -114,3 +81,38 @@ class VehicleService:
         self.db.refresh(vehicle)
 
         return vehicle
+
+    def _get_odb_code_message(self, obd_code: str):
+        return obd_codes.get(obd_code, "Unknown issue")
+
+    def _add_failure(self, vehicle_id, vehicle_status, vehicle, field_name, message):
+        failure_request = CreateFailureRequest(
+            title=f"{vehicle.vehicle_name}. {field_name} is in danger",
+            part=field_name,
+            description=message,
+            km=vehicle_status.km,
+            report_type=ReportType.AUTOMATIC,
+        )
+        return failure_service.FailureService(self.db).create_failure(
+            vehicle_id=vehicle_id, failure=failure_request
+        )
+
+    def notify_user(self, vehicle, user, field_name, message, failure):
+        if user.notification_type == "expo":
+            send_push_notification_expo(
+                user.notification_token,
+                f"{vehicle.vehicle_name}: Isuue encountered in {field_name}",
+                message,
+            )
+        else:
+            send_push_notification_firebase(
+                user.notification_token,
+                f"{vehicle.vehicle_name}: Isuue encountered in {field_name}",
+                message,
+            )
+        notification = Notification(
+            failure_id=failure.id if failure else None, user_id=user.id
+        )
+        self.db.add(notification)
+        self.db.commit()
+        self.db.refresh(notification)
