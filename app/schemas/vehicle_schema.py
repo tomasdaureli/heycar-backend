@@ -15,6 +15,11 @@ class State(str, Enum):
     DANGER = "DANGER"
 
 
+class VehicleStatus(BaseModel):
+    obd_code: str
+    status: State
+
+
 class CreateVehicleRequest(BaseModel):
     brand: str
     model: str
@@ -26,14 +31,15 @@ class CreateVehicleRequest(BaseModel):
 
 
 class UpdateVehicleStatusRequest(BaseModel):
-    engine_status: State
-    battery_status: State
-    brakes_status: State
-    tires_status: State
-    oil_status: State
-    temperature_status: State
-    front_light_status: State
-    rear_light_status: State
+    km: int
+    engine_status: VehicleStatus
+    battery_status: VehicleStatus
+    brakes_status: VehicleStatus
+    tires_status: VehicleStatus
+    oil_status: VehicleStatus
+    temperature_status: VehicleStatus
+    front_light_status: VehicleStatus
+    rear_light_status: VehicleStatus
 
 
 class VehicleResponse(BaseModel):

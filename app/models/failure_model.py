@@ -11,7 +11,6 @@ class Failure(Base):
     title = Column(String(255), nullable=False)
     part = Column(String(255), nullable=False)
     description = Column(String(255), nullable=False)
-    severity = Column(String(255), nullable=False)
     km = Column(Integer, nullable=True)
     report_type = Column(String(255), nullable=True)
     created_at = Column(DateTime, default=datetime.now)

@@ -12,11 +12,9 @@ class CreateFailureRequest(BaseModel):
     title: str
     part: str
     description: str
-    severity: str
-    date: datetime
+
     km: int
     report_type: ReportType
-    fixed: bool
 
 
 class FixFailureRequest(BaseModel):
@@ -28,7 +26,6 @@ class FailureResponse(BaseModel):
     title: str
     part: str
     description: str
-    severity: str
     km: int
     report_type: ReportType | None
     fixed: bool

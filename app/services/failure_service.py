@@ -14,7 +14,8 @@ class FailureService:
             title=failure.title,
             part=failure.part,
             description=failure.description,
-            severity=failure.severity,
+            km=failure.km,
+            report_type=failure.report_type,
         )
         self.db.add(new_failure)
         self.db.commit()
