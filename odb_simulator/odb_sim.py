@@ -20,7 +20,7 @@ def get_obd_code(component):
     
     if status == "OK":
         return "N/A"
-    elif status in ["DANGER", "CHECK"]:
+    elif status in ["CHECK"]:
         for error in odb_codes:
             if component.lower() in error["message"].lower():
                 return error["obd_code"]
