@@ -5,7 +5,9 @@ ADD COLUMN km INTEGER,
 ADD COLUMN report_type VARCHAR(255),
 ADD COLUMN solution VARCHAR(255);
 
-ALTER TABLE failures DELETE COLUMN severity;
+--ALTER TABLE failures DELETE COLUMN severity;
+ALTER TABLE failures DROP COLUMN severity;
+
 
 CREATE TABLE notifications (
     id SERIAL PRIMARY KEY,
