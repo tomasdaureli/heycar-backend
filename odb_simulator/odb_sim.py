@@ -10,19 +10,60 @@ API_URL = os.getenv("API_URL")
 VEHICLE_ID = os.getenv("VEHICLE_ID")
 INTERVAL_SECONDS = os.getenv("INTERVAL_SECONDS")
 
+with open('app\obd-trouble-codes.json') as f:
+    odb_codes = json.load(f)
+
+status_options = ["OK", "CHECK"]
+
+def get_obd_code(component):
+    status = random.choice(status_options)
+    
+    if status == "OK":
+        return "N/A"
+    elif status in ["CHECK"]:
+        for error in odb_codes:
+            if component.lower() in error["message"].lower():
+                return error["obd_code"]
+        return "CODE_NOT_FOUND"
+    else:
+        return "N/A"
 
 def generate_status():
-    status_options = ["OK", "DANGER", "CHECK"]
 
     data = {
-        "engine_status": random.choice(status_options),
-        "battery_status": random.choice(status_options),
-        "brakes_status": random.choice(status_options),
-        "tires_status": random.choice(status_options),
-        "oil_status": random.choice(status_options),
-        "temperature_status": random.choice(status_options),
-        "front_light_status": random.choice(status_options),
-        "rear_light_status": random.choice(status_options),
+        "km": random.randint(10000, 100000),
+        "engine_status": {
+            "obd_code":  get_obd_code("engine"),
+            "status":  random.choice(status_options)
+        },
+        "battery_status": {
+            "obd_code":  get_obd_code("battery"),
+            "status": "DANGER"
+        }, #Solo este danger
+        "brakes_status": {
+            "obd_code":  get_obd_code("brakes"),
+            "status":  random.choice(status_options)
+        },
+        "tires_status": {
+            "obd_code":  get_obd_code("tires"),
+            "status":  random.choice(status_options)
+        },
+        "oil_status": {
+            "obd_code":  get_obd_code("oil"),
+            "status":  random.choice(status_options)
+        },
+        "temperature_status": {
+            "obd_code":  get_obd_code("temperature"),
+            "status":  random.choice(status_options)
+        },
+        "front_light_status": {
+            "obd_code":  get_obd_code("front light"),
+            "status":  random.choice(status_options)
+        },
+        "rear_light_status": {
+            "obd_code":  get_obd_code("rear light"),
+            "status":  random.choice(status_options)
+        },
     }
 
     return data
