@@ -14,6 +14,7 @@ from config.notifications import (
 )
 from services import failure_service
 import json
+from deep_translator import GoogleTranslator
 
 
 with open("obd-trouble-codes.json", "r") as file:
@@ -98,17 +99,30 @@ class VehicleService:
         )
 
     def notify_user(self, vehicle, user, field_name, message, failure):
-        if user.notification_type == "expo":
+        formatted_field_name = field_name.replace("_", " ").title()
+        translator = GoogleTranslator(source="auto", target="es")
+
+        title = f"{vehicle.vehicle_name}: Isuue encountered in {formatted_field_name}"
+        translated_title = translator.translate(title)
+        translated_message = translator.translate(message)
+
+        if user.notification_type == "EXPO":
+            print(f"Sending push notification to {user.notification_token}")
+            print(f"Title: {translated_title}")
+            print(f"Message: {translated_message}")
             send_push_notification_expo(
                 user.notification_token,
-                f"{vehicle.vehicle_name}: Isuue encountered in {field_name}",
-                message,
+                translated_title,
+                translated_message,
             )
         else:
+            print(f"Sending push notification to {user.notification_token}")
+            print(f"Title: {translated_title}")
+            print(f"Message: {translated_message}")
             send_push_notification_firebase(
                 user.notification_token,
-                f"{vehicle.vehicle_name}: Isuue encountered in {field_name}",
-                message,
+                translated_title,
+                translated_message,
             )
         notification = Notification(
             failure_id=failure.id if failure else None, user_id=user.id
