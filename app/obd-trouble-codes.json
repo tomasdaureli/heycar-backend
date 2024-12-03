@@ -12282,9 +12282,9 @@
   {
     "obd_code": "X0501",
     "message": "(CAN) Lack of Acknowledgement From Rear Light System"
-},
-{
+  },
+  {
     "obd_code": "X0502",
     "message": "(CAN) Lack of Acknowledgement From Front Light System"
-}
+  }
 ]
