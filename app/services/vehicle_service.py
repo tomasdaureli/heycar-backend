@@ -22,6 +22,8 @@ with open("obd-trouble-codes.json", "r") as file:
 
 obd_codes = {item["obd_code"]: item["message"] for item in obd_codes_list}
 
+translator = GoogleTranslator(source="auto", target="es")
+
 
 class VehicleService:
     def __init__(self, db: Session):
@@ -87,8 +89,11 @@ class VehicleService:
         return obd_codes.get(obd_code, "Unknown issue")
 
     def _add_failure(self, vehicle_id, vehicle_status, vehicle, field_name, message):
+        formatted_field_name = field_name.replace("_", " ").title()
         failure_request = CreateFailureRequest(
-            title=f"{vehicle.vehicle_name}. {field_name} is in danger",
+            title=translator.translate(
+                f"{vehicle.vehicle_name}. {formatted_field_name} is in danger"
+            ),
             part=field_name,
             description=message,
             km=vehicle_status.km,
@@ -100,7 +105,6 @@ class VehicleService:
 
     def notify_user(self, vehicle, user, field_name, message, failure):
         formatted_field_name = field_name.replace("_", " ").title()
-        translator = GoogleTranslator(source="auto", target="es")
 
         title = f"{vehicle.vehicle_name}: Isuue encountered in {formatted_field_name}"
         translated_title = translator.translate(title)
